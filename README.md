@@ -45,21 +45,30 @@ Nous savons que la cible s’est hébergée à l’hôtel « Black Rain » et qu
 > **_Question :_** Quel filtre avez-vous utilisé
 > 
 > **_Réponse :_** 
+`wlan.fc.type_subtype == 0x04`
 
 ---
 > **_Question :_** Quel est l’adresse MAC de la cible ?
 > 
 > **_Réponse :_** 
+En utilisant le fitre suivant : `wlan.fc.type_subtype == 0x04 &&  wlan.ssid matches "(hotel)|(starbucks)"`
+On obtient l'adresse MAC suivante : `Source address: SamsungE_22:49:74 (fc:f1:36:22:49:74)`
 
 ---
 > **_Question :_** Quel est le nom du constructeur de l’interface sans fils de la cible ?
 > 
 > **_Réponse :_** 
+Samsung
 
 ---
 > **_Question :_** Quel autres endroits la cible a-t-elle probablement visités ?
 > 
 > **_Réponse :_** 
+Avec le fitre suivant : `wlan.sa == fc:f1:36:22:49:74`
+Il est allé à :
+- GVA
+- Migros
+- fleur de pain
 
 ---
 
@@ -106,6 +115,7 @@ Maintenant que vous avez la clé WEP, configurez la dans Wireshark afin de déch
 > **_Question :_** Combien de temps avez-vous attendu pour obtenir la clé WEP ?
 > 
 > **_Réponse :_** 
+0s : c'était immédiat
 
 ---
 > **_Montrer une capture d'écran de l'obtention de la clé WEP_**
@@ -116,6 +126,7 @@ Maintenant que vous avez la clé WEP, configurez la dans Wireshark afin de déch
 > **_Question :_** Arrivez-vous à récupérer les informations d’identification (credentials) de l’authentification basique http contenue dans la capture ?
 > 
 > **_Réponse :_** 
+Oui, la preuve on a accès aux credentials de l'utilisateur : `admin:admin`
 
 ---
 
@@ -143,6 +154,7 @@ Nous utiliserons Wireshark pour trouver l’authentification WPA contenue dans l
 > **_Fournir une capture d'écran des chiffres aléatoires_**
 > 
 > **_Capture ici_** 
+On voit les échanges de nounce dans les packets sur wireshark
 
 ---
 
@@ -165,19 +177,24 @@ aircrack-ng <nom-du-fichier-capture> -w <nom-du-dictionnaire>
 > **_Question :_** Combien de temps avez-vous attendu pour obtenir la passphrase WPA ?
 > 
 > **_Réponse :_** 
+Environ 10s
 
 ---
 > **_Montrer une capture d'écran de l'obtention de la passphrase WPA_**
 > 
 > **_Capture ici_** 
+La passphrase est "anticonstitutionnellement"
 
 ---
 > **_Question :_** Lors de la capture, la cible a fait un « ping » sur un serveur. Arrivez-vous à dire de quel serveur il s’agit ?
 
+
 > 
 > **_Réponse :_** 
 > 
-> Adresse IP du serveur : ?
+> Avec le filtre : `icmp.type==8`, on voit le ping ECHO-request qui indique l'adresse de destination à 31.13.64.35.
+>
+> Adresse IP du serveur : 31.13.64.35
 >
 > Nom de Domaine : ?
 
@@ -192,10 +209,12 @@ Nous avons enlevé une seule trame (choisie stratégiquement) du fichier de capt
 > **_Question :_** Est-ce que vous arrivez à refaire l'exercice ? Pourquoi ou pourquoi pas ?
 > 
 > **_Réponse :_** 
+On ne peut pas car il manque un packet dans le 4-way handshake
 
 ---
 > **_Question :_** Sur la base de votre réponse précédente, arrivez-vous à déduire quelle trame a été effacée ?
 
 > 
 > **_Réponse :_** 
+> il manque le 2ème packet du 4-way handshake
 > 
